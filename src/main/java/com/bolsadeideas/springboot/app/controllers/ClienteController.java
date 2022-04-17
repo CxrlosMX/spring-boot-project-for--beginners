@@ -1,12 +1,16 @@
 package com.bolsadeideas.springboot.app.controllers;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.bolsadeideas.springboot.app.models.dao.IClienteDao;
+import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
 @Controller // Para marcar la clase como un controlador
 public class ClienteController {
@@ -24,6 +28,21 @@ public class ClienteController {
 		model.addAttribute("titulo", "Listado de Clientes");
 		model.addAttribute("clientes", clienteDao.fiendAll()); // Lo pasamos a la vista
 		return "listar";
+	}
+
+	// INSERCIÓN
+	@GetMapping("/form")
+	public String crear(Map<String, Object> model) {
+		model.put("titulo", "Formulario de Cliente");
+		Cliente cliente = new Cliente();
+		model.put("cliente", cliente);
+		return "form"; // Nombre de la vistas
+	}
+
+	@PostMapping("/form")
+	public String guardar(Cliente cliente) {
+		clienteDao.save(cliente);
+		return "redirect:listar";
 	}
 
 }
