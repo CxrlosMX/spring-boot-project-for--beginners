@@ -36,13 +36,7 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 
 	private static final long serialVersionUID = 1L;
 
-	public Cliente(Long id, String nombre, String apellido, String email, Date createAt) {
-		this.id = id;
-		this.nombre = nombre;
-		this.apellido = apellido;
-		this.email = email;
-		this.createAt = createAt;
-	}
+
 
 	public Long getId() {
 		return id;
