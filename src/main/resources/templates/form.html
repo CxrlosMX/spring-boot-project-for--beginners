@@ -44,11 +44,11 @@
 		<form th:action="@{/form}" th:object="${cliente}" method="POST">
 			<!--Action: Contiene la ruta que procesa el formulario "POST". 
 	Object: Mapeamos el cliente al formulario-->
-			<table>
+			<table class="table table-bordered">
 
 
 				<tr>
-					<td>Nombre</td>
+					<td style="width: 200px;">Nombre</td>
 					<td><input type="text" th:field="*{nombre}" class="form-control" required /></td>
 					<!--Estamos mapeando cada campo del formulario
 				con cada atributo de la clase cliente-->
@@ -60,6 +60,10 @@
 				<tr>
 					<td>Email</td>
 					<td><input type="email" th:field="*{email}" class="form-control" required /></td>
+				</tr>
+				<tr>
+					<td>Fecha</td>
+					<td><input type="text" th:field="*{createAt}" class="form-control" required /></td>
 				</tr>
 
 				<tr>

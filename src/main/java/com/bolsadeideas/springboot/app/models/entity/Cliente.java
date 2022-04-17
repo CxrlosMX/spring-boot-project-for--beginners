@@ -8,10 +8,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 /*Para especificar que una clase con atributos se trabajara con JPA anotamos @Entity, siempre se importa de 
 java persistence. 
@@ -34,14 +35,15 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE) // Indica el formato en el cual se guardara la fecha en el campo de la base de
 									// datos
+	@DateTimeFormat(pattern ="yyyy-MM-dd" )  //Con esta anotación podemos especificar el patron que deseamos usar para la fecha
 	private Date createAt;
 
 	private static final long serialVersionUID = 1L;
 
-	@PrePersist //Se invoca justo antes que llamemos el método persist
-	public void prePersist() {
-		createAt=new Date();
-	}
+	/*
+	 * @PrePersist //Se invoca justo antes que llamemos el método persist public
+	 * void prePersist() { createAt=new Date(); }
+	 */
 
 	public Long getId() {
 		return id;
