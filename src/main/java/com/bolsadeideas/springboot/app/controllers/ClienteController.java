@@ -7,12 +7,18 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.bolsadeideas.springboot.app.models.dao.IClienteDao;
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
 @Controller // Para marcar la clase como un controlador
+@SessionAttributes("cliente")
 public class ClienteController {
 
 	@Autowired // Con esta anotación busca algun componente que implemente la interface
@@ -40,9 +46,24 @@ public class ClienteController {
 	}
 
 	@PostMapping("/form")
-	public String guardar(Cliente cliente) {
+	public String guardar(Cliente cliente, SessionStatus status) {
 		clienteDao.save(cliente);
+		status.setComplete();
 		return "redirect:listar";
+	}
+
+	// ACTUALIZAR - EDITAR
+	@RequestMapping(value = "/form/{id}")
+	public String editar(@PathVariable(value = "id") Long id, Map<String, Object> model) {
+		Cliente cliente = null;
+		model.put("titulo", "Editar Cliente");
+		if (id > 0) {
+			cliente = clienteDao.findOne(id);
+		} else {
+			return "redirect:/listar"; // En caso que el id sea igual o menor a cero , nos redirige a la vista "listar"
+		}
+		model.put("cliente", cliente); // Pasamos el cliente a la vista
+		return "form";
 	}
 
 }

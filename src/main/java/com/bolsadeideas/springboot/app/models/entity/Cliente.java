@@ -28,6 +28,7 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 
 	// @Column(name = "nombre_cliente") // Anotación: para especificar el nombre del
 	// campo dentro de la base de datos
+	
 
 	private String nombre;
 	private String apellido;

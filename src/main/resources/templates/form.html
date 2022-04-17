@@ -41,12 +41,14 @@
 
 		<h1 class="text-primary" th:text="${titulo}"></h1>
 
+
+		
 		<form th:action="@{/form}" th:object="${cliente}" method="POST">
 			<!--Action: Contiene la ruta que procesa el formulario "POST". 
 	Object: Mapeamos el cliente al formulario-->
 			<table class="table table-bordered">
 
-
+		//Siguiente: 128
 				<tr>
 					<td style="width: 200px;">Nombre</td>
 					<td><input type="text" th:field="*{nombre}" class="form-control" required /></td>
@@ -63,7 +65,7 @@
 				</tr>
 				<tr>
 					<td>Fecha</td>
-					<td><input type="text" th:field="*{createAt}" class="form-control" required /></td>
+					<td><input type="date" th:field="*{createAt}" class="form-control" required /></td>
 				</tr>
 
 				<tr>
@@ -72,7 +74,7 @@
 
 			</table>
 			<!--el campo ID no lo agregamos porque recordemos que es autoincrementable-->
-			<input type="hidden" th:field="*{id}" />
+			<!--<input type="hidden" th:field="*{id}" />-->
 			<!--Con field: mapeamos al campo-->
 
 		</form>
