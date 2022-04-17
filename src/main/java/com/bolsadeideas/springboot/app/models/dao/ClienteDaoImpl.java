@@ -30,7 +30,6 @@ public class ClienteDaoImpl implements IClienteDao {
 	 * entity en el contexto de persistencia y en la base de datos
 	 */
 	@Override
-	@Transactional
 	public void save(Cliente cliente) {
 		if (cliente.getId() != null && cliente.getId() > 0) {
 			em.merge(cliente); // El método merge() lo que hace es actualizar los datos existentes
@@ -41,7 +40,6 @@ public class ClienteDaoImpl implements IClienteDao {
 
 	// ACTUALIZAR -EDITAR
 	@Override
-	@Transactional
 	public Cliente findOne(Long id) {
 
 		return em.find(Cliente.class, id); // De forma automatica JPA va a la base de datos y nos entrega el objeto
@@ -50,7 +48,6 @@ public class ClienteDaoImpl implements IClienteDao {
 
 	// ELIMINAR- DELETE
 	@Override
-	@Transactional
 	public void delete(Long id) {
 		// Obtenemos el cliente
 		Cliente cliente = findOne(id); // Buscamos el cliente
