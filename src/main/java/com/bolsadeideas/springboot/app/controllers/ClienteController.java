@@ -49,7 +49,7 @@ public class ClienteController {
 	public String guardar(Cliente cliente, SessionStatus status) {
 		clienteDao.save(cliente);
 		status.setComplete();
-		return "redirect:listar";
+		return "redirect:/listar";
 	}
 
 	// ACTUALIZAR - EDITAR
@@ -64,6 +64,16 @@ public class ClienteController {
 		}
 		model.put("cliente", cliente); // Pasamos el cliente a la vista
 		return "form";
+	}
+
+	// DELETE - ELIMINAR
+	@RequestMapping(value = "/eliminar/{id}")
+	public String eliminar(@PathVariable(value = "id") Long id) {
+		if (id > 0) { // Si el ID es mayor a cero
+			clienteDao.delete(id); // Eliminamos
+		}
+
+		return "redirect:/listar"; // Al eliminar redireccionar a la vista "listar"
 	}
 
 }

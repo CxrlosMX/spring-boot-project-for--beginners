@@ -41,9 +41,21 @@ public class ClienteDaoImpl implements IClienteDao {
 
 	// ACTUALIZAR -EDITAR
 	@Override
+	@Transactional
 	public Cliente findOne(Long id) {
 
 		return em.find(Cliente.class, id); // De forma automatica JPA va a la base de datos y nos entrega el objeto
 											// cliente
+	}
+
+	// ELIMINAR- DELETE
+	@Override
+	@Transactional
+	public void delete(Long id) {
+		// Obtenemos el cliente
+		Cliente cliente = findOne(id); // Buscamos el cliente
+
+		em.remove(cliente); // Eliminamos el cliente
+
 	}
 }
