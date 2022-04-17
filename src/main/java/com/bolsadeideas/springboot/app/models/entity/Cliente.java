@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,6 +27,7 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 
 	// @Column(name = "nombre_cliente") // Anotación: para especificar el nombre del
 	// campo dentro de la base de datos
+
 	private String nombre;
 	private String apellido;
 	private String email;
@@ -36,7 +38,10 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 
 	private static final long serialVersionUID = 1L;
 
-
+	@PrePersist //Se invoca justo antes que llamemos el método persist
+	public void prePersist() {
+		createAt=new Date();
+	}
 
 	public Long getId() {
 		return id;
