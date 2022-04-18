@@ -3,7 +3,6 @@ package com.bolsadeideas.springboot.app.controllers;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 import com.bolsadeideas.springboot.app.models.service.ClienteServiceImpl;
@@ -24,9 +24,22 @@ public class ClienteController {
 				// IClienteDao
 	// Si tenemos más de un componente que implemente la interface, se especifica
 	// con: @Qualifier("nombreComponente")
-	//@Qualifier("clienteDaoJPA")
+	// @Qualifier("clienteDaoJPA")
 	private ClienteServiceImpl clienteService; // Siempre es importante buscar lo más generico para mejorar el CEO o
 	// actulizaciones a futuro
+
+	// Método para ver los datos de un cliente
+	@GetMapping(value = "/ver/{id}")
+	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
+		Cliente cliente = clienteService.findOne(id); // Obtenemos el cliente
+		if (cliente == null) {
+			flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
+			return "redirect:/listar";
+		}
+		model.put("titulo", "Detalle Cliente");
+		model.put("cliente", cliente);
+		return "ver";
+	}
 
 	@GetMapping("/listar") // Especificamos el método y la ruta
 	public String listar(Model model) { // El objeto Model para pasar datos a la vista
