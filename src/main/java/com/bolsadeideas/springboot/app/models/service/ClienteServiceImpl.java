@@ -15,28 +15,27 @@ public class ClienteServiceImpl implements IClienteService {
 	@Autowired
 	private IClienteDao clienteDao;
 
-	@Transactional
+
 	@Override
 	public List<Cliente> fiendAll() {
 		// TODO Auto-generated method stub
 		return clienteDao.fiendAll();
 	}
 
-	@Transactional
 	@Override
 	public void save(Cliente cliente) {
 		clienteDao.save(cliente);
 
 	}
 
-	@Transactional
+
 	@Override
 	public Cliente findOne(Long id) {
 		// TODO Auto-generated method stub
 		return clienteDao.findOne(id);
 	}
 
-	@Transactional
+
 	@Override
 	public void delete(Long id) {
 		clienteDao.delete(id);

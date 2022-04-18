@@ -24,7 +24,7 @@ public class ClienteController {
 				// IClienteDao
 	// Si tenemos más de un componente que implemente la interface, se especifica
 	// con: @Qualifier("nombreComponente")
-	@Qualifier("clienteDaoJPA")
+	//@Qualifier("clienteDaoJPA")
 	private ClienteServiceImpl clienteService; // Siempre es importante buscar lo más generico para mejorar el CEO o
 	// actulizaciones a futuro
 

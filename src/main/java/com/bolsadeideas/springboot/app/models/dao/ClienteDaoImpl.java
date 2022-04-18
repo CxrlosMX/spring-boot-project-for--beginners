@@ -4,10 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Repository;
-
+		//Video 132- 5:23
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
 @Repository("clienteDaoJPA") // Atonacion que indica que es un acceso a datos, Con comillas especificamos un
