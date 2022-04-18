@@ -1,17 +1,21 @@
 package com.bolsadeideas.springboot.app.models.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
 import org.springframework.format.annotation.DateTimeFormat;
 
 /*Para especificar que una clase con atributos se trabajara con JPA anotamos @Entity, siempre se importa de 
@@ -28,7 +32,6 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 
 	// @Column(name = "nombre_cliente") // Anotación: para especificar el nombre del
 	// campo dentro de la base de datos
-	
 
 	private String nombre;
 	private String apellido;
@@ -36,8 +39,13 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 	@Column(name = "create_at")
 	@Temporal(TemporalType.DATE) // Indica el formato en el cual se guardara la fecha en el campo de la base de
 									// datos
-	@DateTimeFormat(pattern ="yyyy-MM-dd" )  //Con esta anotación podemos especificar el patron que deseamos usar para la fecha
+	@DateTimeFormat(pattern = "yyyy-MM-dd") // Con esta anotación podemos especificar el patron que deseamos usar para
+											// la fecha
 	private Date createAt;
+
+	// Creamos la asociación del cliente con las facturas
+	@OneToMany(mappedBy = "cliente",fetch = FetchType.LAZY, cascade = CascadeType.ALL) // Especificamos que un cliente puede tener muchas facturas
+	private List<Factura> facturas;
 
 	private static final long serialVersionUID = 1L;
 
@@ -45,6 +53,10 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 	 * @PrePersist //Se invoca justo antes que llamemos el método persist public
 	 * void prePersist() { createAt=new Date(); }
 	 */
+
+	public Cliente() {
+		facturas = new ArrayList<>();
+	}
 
 	public Long getId() {
 		return id;
@@ -90,4 +102,15 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 		return serialVersionUID;
 	}
 
+	public List<Factura> getFacturas() {
+		return facturas;
+	}
+
+	public void setFacturas(List<Factura> facturas) {
+		this.facturas = facturas;
+	}
+
+	public void addFactura(Factura factura) {
+		facturas.add(factura);
+	}
 }

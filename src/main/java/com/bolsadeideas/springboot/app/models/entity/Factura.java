@@ -1,0 +1,124 @@
+package com.bolsadeideas.springboot.app.models.entity;
+
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+@Entity // Mapeamos- La marcamos como persistencia
+@Table(name = "facturas") // La mapeamos a la tabla facturas
+public class Factura implements Serializable { // Toda clase entity como buena practica debe implementar la interface
+												// Serializable
+
+	// Atributos
+	@Id // Indicamos que el ID es la llave primaria
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	private String descripcion;
+	private String observacion;
+
+	@Temporal(TemporalType.DATE) // Especificamos que solamente se guardara la Fecha-sin hora-solo fecha
+	@Column(name = "create_at")
+	private Date createAt;
+
+	// Carga peresosa, solo realiza la consulta cuando se le llama
+	@ManyToOne(fetch = FetchType.LAZY) // Con esta anotación especificamos que tendremos muchas facturas a un cliente:
+	// Many-to-One
+	private Cliente cliente;
+
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "factura_id")
+	private List<ItemFactura> items;
+
+	public Factura() {
+		items = new ArrayList<>();
+	}
+
+	@PrePersist
+	public void prePersist() { // Creamos el método que asigna la fecha
+		createAt = new Date();
+
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getObservacion() {
+		return observacion;
+	}
+
+	public void setObservacion(String observacion) {
+		this.observacion = observacion;
+	}
+
+	public Date getCreateAt() {
+		return createAt;
+	}
+
+	public void setCreateAt(Date createAt) {
+		this.createAt = createAt;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+	}
+
+	public List<ItemFactura> getItems() {
+		return items;
+	}
+
+	public void setItems(List<ItemFactura> items) {
+		this.items = items;
+	}
+
+	public void addItemFactura(ItemFactura item) {
+		items.add(item);
+	}
+
+	public Double getTotal() {
+		Double total = 0.0;
+		for (ItemFactura itemFactura : items) {
+			total += itemFactura.calcularImporte();
+		}
+
+		return total;
+	}
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+}
