@@ -43,6 +43,8 @@
 		<div class="card-header" th:text="${titulo}"></div>
 
 		<div class="card-body">
+			<h4 class="card-title"><a class="btn btn-primary btn-xs" th:href="@{'/factura/form/' + ${cliente.id}}">Crear Factura</a></h4>
+
 			<ul class="list-group">
 				<li class="list-group-item" th:text="${cliente.nombre}"></li>
 				<li class="list-group-item" th:text="${cliente.apellido}"></li>
