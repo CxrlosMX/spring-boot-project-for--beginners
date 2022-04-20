@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.stereotype.Repository;
-		//Video 132- 5:23
+//Video 132- 5:23
 import com.bolsadeideas.springboot.app.models.entity.Cliente;
 
 @Repository("clienteDaoJPA") // Atonacion que indica que es un acceso a datos, Con comillas especificamos un
@@ -53,5 +53,12 @@ public class ClienteDaoImpl implements IClienteDao {
 
 		em.remove(cliente); // Eliminamos el cliente
 
+	}
+
+	@Override
+	public Cliente fetchByIdWithFacturas(Long id) {
+		// TODO Auto-generated method stub
+		Cliente cliente = findOne(id);
+		return cliente;
 	}
 }

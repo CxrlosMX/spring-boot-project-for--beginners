@@ -31,7 +31,8 @@ public class ClienteController {
 	// Método para ver los datos de un cliente
 	@GetMapping(value = "/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Map<String, Object> model, RedirectAttributes flash) {
-		Cliente cliente = clienteService.findOne(id); // Obtenemos el cliente
+		Cliente cliente = clienteService.fetchByIdWithFacturas(id); // clienteService.findOne(id); // Obtenemos el
+																	// cliente
 		if (cliente == null) {
 			flash.addFlashAttribute("error", "El cliente no existe en la base de datos");
 			return "redirect:/listar";
