@@ -46,6 +46,10 @@
 					return false;
 				}
 			});
+			$("form").submit(function () {
+				$("#plantillaItemsFactura").remove();
+				return;
+			});
 		}
 		);
 
