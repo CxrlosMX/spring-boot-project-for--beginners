@@ -42,7 +42,7 @@ public class ClienteController {
 		return "ver";
 	}
 
-	@GetMapping("/listar") // Especificamos el método y la ruta
+	@GetMapping(value = { "/listar", "/" }) // Especificamos el método y la ruta
 	public String listar(Model model) { // El objeto Model para pasar datos a la vista
 		model.addAttribute("titulo", "Listado de Clientes");
 		model.addAttribute("clientes", clienteService.fiendAll()); // Lo pasamos a la vista

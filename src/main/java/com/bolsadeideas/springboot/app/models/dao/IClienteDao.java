@@ -16,7 +16,7 @@ public interface IClienteDao {
 
 	void delete(Long id);
 
-	@Query("select c from Cliente c join fetch c.facturas f where c.id=?1") // Nos permite crear una consulta JPA más
+	@Query("select c from Cliente c left join fetch c.facturas f where c.id=?1") // Nos permite crear una consulta JPA más
 																			// personalizada
 	Cliente fetchByIdWithFacturas(Long id);
 }
