@@ -79,7 +79,9 @@ public class FacturaController {
 	@GetMapping("/ver/{id}")
 	public String ver(@PathVariable(value = "id") Long id, Model model, RedirectAttributes flash) {
 
-		Factura factura = clienteService.findFacturaById(id); // Obtnemos la factura por ID
+		Factura factura = clienteService.fetchByIdWithClienteWithItemFacturaWithProduct(id); // clienteService.findFacturaById(id);
+																								// // Obtnemos la
+																								// factura por ID
 		if (factura == null) { // Validamos si encontro la Factura
 			flash.addFlashAttribute("error", "La factura no existe en la base de datos"); // Mandamos un mensaje
 			return "redirect:/listar";
@@ -89,6 +91,19 @@ public class FacturaController {
 																						// descripción del producto
 		model.addAttribute("factura", factura); // Pasamos la factura a la vista
 		return "factura/ver";
+	}
+
+	@GetMapping("/eliminar/{id}")
+	public String eliminar(@PathVariable(value = "id") Long id, RedirectAttributes flash) {
+		Factura factura = clienteService.findFacturaById(id); // Obtenemos la factura
+
+		if (factura != null) { // Verificamos si encontro la factura
+			clienteService.deleteFactura(id); // Si encuentra la factura la elimina
+			flash.addFlashAttribute("success", "Factura eliminada con éxito");
+			return "redirect:/ver/" + factura.getCliente().getId();
+		}
+		flash.addFlashAttribute("error", "La factura no existe en la base de datos");
+		return "redirect:/listar";
 	}
 
 }
