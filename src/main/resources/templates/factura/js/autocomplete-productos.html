@@ -52,6 +52,7 @@
 		let itemsHelper = {
 			calcularImporte: function (id, precio, cantidad) {
 				$("#total_importe_" + id).html(parseInt(precio) * parseInt(cantidad));
+				this.calcularGranTotal();
 			},
 			hasProducto: function (id) {
 				let resultado = false;
@@ -70,6 +71,20 @@
 			},
 			eliminarLineaFactura: function (id) {
 				$("#row_" + id).remove();
+				this.calcularGranTotal();
+			},
+			calcularGranTotal: function () {
+				var total = 0;
+
+				$('span[id^="total_importe_"]').each(function () {
+					total = total + parseInt($(this).html());
+				});
+				if (total === 0) {
+					$('#gran_total').html(total);
+				}
+				else {
+					$('#gran_total').html("$" + total);
+				}
 			}
 		}
 
