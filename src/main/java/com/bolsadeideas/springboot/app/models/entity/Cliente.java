@@ -113,4 +113,11 @@ public class Cliente implements Serializable {// Siempre es recomendable impleme
 	public void addFactura(Factura factura) {
 		facturas.add(factura);
 	}
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
+		return this.nombre+" "+ this.apellido;
+	}
+	
 }
