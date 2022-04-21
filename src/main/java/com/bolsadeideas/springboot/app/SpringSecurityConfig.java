@@ -14,6 +14,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration // Una anotación especialmente para spring security
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		// Asignando permisos de acceso a rutas
+		http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/images/**", "/listar").permitAll()
+				.antMatchers("/ver/**").hasAnyRole("USER").antMatchers("/form/**").hasAnyRole("ADMIN")
+				.antMatchers("/eliminar/**").hasAnyRole("ADMIN").antMatchers("/factura/**").hasAnyRole("ADMIN")
+				.anyRequest().authenticated().and().formLogin().permitAll().and().logout().permitAll(); // Implementamos
+																										// // nuestro
+		// formulario de login
+	}
+
 	@Bean
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -21,7 +32,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired // para poder inyectar
 	public void configureGlobal(AuthenticationManagerBuilder builder) throws Exception {
-		PasswordEncoder encoder = passwordEncoder();
+		PasswordEncoder encoder = this.passwordEncoder();
 
 		UserBuilder users = User.builder().passwordEncoder(password -> {
 			return encoder.encode(password);
@@ -31,18 +42,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 		// y roles
 		builder.inMemoryAuthentication().withUser(users.username("admin").password("12345").roles("ADMIN", "USER"))
 				.withUser(users.username("carlos").password("12345").roles("USER"));
-	}
-
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		// Asignando permisos de acceso a rutas
-		http.authorizeRequests().antMatchers("/", "/css/**", "/js/**", "/images/**", "/listar").permitAll()
-				.antMatchers("/ver/**").hasAnyRole("USER").antMatchers("/form/**").hasAnyRole("ADMIN")
-				.antMatchers("/eliminar/**").hasAnyRole("ADMIN").antMatchers("/factura/**").hasAnyRole("ADMIN")
-				.anyRequest().authenticated().and().formLogin().loginPage("/form").permitAll().and().logout()
-				.permitAll(); // Implementamos
-								// // nuestro
-		// formulario de login
 	}
 
 }
